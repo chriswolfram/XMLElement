@@ -34,11 +34,11 @@ Next, `attributes` is a dictionary of all the attributes in this element.  Here 
 
 the contents of `b` would be `"test"`, the contents of `c` would be `"another test"`, and the contents of `a` would be `"<b>test</b><c>another test</c>"`.
 
-`children` should not be used often.  It maps tags to child XMLElements in a dictionary.  The children are in lists so that multiple child elements with the same tag can be stored.  Subtract syntax can almost always be used instead.
+`children` should not be used often.  It maps tags to child XMLElements in a dictionary.  The children are in lists so that multiple child elements with the same tag can be stored.  Subscript syntax can almost always be used instead.
 
 `childList` is the list of all child elements.
 
-`parent` is largely for internal use.  It refers to the parent of a given element.
+`parent` is largely for internal use.  It refers to the parent of an element.  `parent` is `nil` for the root element.
 
 The last property, `childTags` is a computed property, primarily for convenience.  It just represents the list of tags of all the children.
 
@@ -74,7 +74,7 @@ This returns `["channel"]`.  That tells us that under `rss` (the root) there is 
 xml["channel"]
 ```
 
-This will return the first element with the tag channel.  This is one reason why subscripts are often more convenient than using the `children` property.  `children` contains lists of elements, so to get `channel` we would have to run something like:
+This will return the first element with the tag `channel`.  This is one reason why subscripts are often more convenient than using the `children` property.  `children` contains lists of elements, so to get `channel` we would have to run something like:
 
 ```
 xml.children["channel"]?[0]
@@ -88,7 +88,7 @@ We could now explore a bit under the channel:
 print(xml["channel"]?.childTags)
 ```
 
-that prints something like:
+That prints something like:
 
 ```
 Optional(["atom:link", "title", "link", "description", "language", "copyright", "pubDate", "lastBuildDate", "ttl", "image", "item", "item", "item", "item", "item", "item", "item", "item", "item", "item", "item", "item", "item", "item", "item", "item", "item", "item", "item", "item"])
@@ -101,6 +101,6 @@ let item = xml["channel"]?["item"]
 print(item?["title"]?.contents)
 ```
 
-We could also get all the `item`s with subscripts by running something like `xml["channel"]?["item", .All]`.  The `.All` is an element of an enum.  Other options include `.First` and `.Last`.  This will return all the elements with the tag `"item"`.  If we wanted all the titles of all the `item`s we could run `xml["channel"]?["item", .All]?.map({$0["title"]?.contents})`.
+We could also get all the `item`s with subscripts by running something like `xml["channel"]?["item", .All]`.  The `.All` is an element of an enum.  Other options include `.First` and `.Last`.  This will return all the elements with the tag `"item"` in a list.  If we wanted all the titles of all the `item`s we could run `xml["channel"]?["item", .All]?.map({$0["title"]?.contents})`.
 
 Subscripts can also be given indices.  Something like `xml["channel"]?[0]`.
