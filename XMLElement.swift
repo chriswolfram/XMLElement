@@ -25,12 +25,20 @@ import Foundation
 
 class XMLElement: NSObject, NSXMLParserDelegate
 {
-    var tag: String?
+    var tag: String!
     var attributes: [String: String]!
     var contents: String?
     var children = [String: [XMLElement]]()
     var childList = [XMLElement]()
     var parent: XMLElement?
+    
+    var childTags: [String]
+    {
+        get
+        {
+            return self.childList.map({$0.tag})
+        }
+    }
     
     enum XMLElementParts
     {
